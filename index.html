@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#17212b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Code Calc">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Electrical Code Calculator</title>
+<style>
+:root{--navy:#17212b;--navy2:#202d38;--steel:#344653;--line:#52636f;--paper:#eef1f2;--ink:#17212b;--amber:#f0a928;--white:#fff;--muted:#aeb9c0}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:#101820;color:var(--white);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;min-height:100vh}
+main{width:min(100%,780px);margin:auto;padding:max(14px,env(safe-area-inset-top)) 14px max(22px,env(safe-area-inset-bottom))}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:4px 4px 12px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:38px;height:38px;border:2px solid var(--amber);border-radius:8px;display:grid;place-items:center;font-weight:900;font-size:21px;color:var(--amber)}
+h1{font-size:19px;line-height:1.05;margin:0;font-weight:800;letter-spacing:.01em}
+.title2{font-size:11px;color:var(--muted);margin-top:3px;text-transform:uppercase;letter-spacing:.1em}
+.badge{font-size:10px;border:1px solid #62727d;border-radius:5px;padding:5px 7px;color:#d5dde1;letter-spacing:.05em}
+.card{background:var(--navy2);border:1px solid var(--steel);border-radius:12px;overflow:hidden}
+.sectionhead{padding:10px 14px;background:#263640;border-bottom:1px solid var(--steel);font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#d7dee2}
+.formula{padding:11px 14px;color:#d3dbe0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px}
+.display{margin:0 14px 14px;background:#0e151b;border:1px solid #596a75;border-radius:8px;padding:13px 15px;text-align:right;box-shadow:inset 0 1px 0 #000}
+.input{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:42px;font-weight:750;min-height:49px;overflow-wrap:anywhere}
+.result{display:flex;align-items:end;justify-content:space-between;border-top:1px solid #33434e;margin-top:10px;padding-top:9px}
+.resultlabel{text-align:left;font-size:10px;color:#91a0a9;text-transform:uppercase;letter-spacing:.1em}
+.answer{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--amber);font-size:36px;font-weight:900;line-height:1.05;margin-top:3px}
+.unit{font-size:11px;color:#91a0a9}
+.note{padding:0 14px 14px;font-size:11px;color:#98a6ae;line-height:1.45}
+.keys{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+button{min-height:64px;border:1px solid #4a5b66;border-radius:9px;background:#273640;color:#f7f9fa;font-size:25px;font-weight:700;box-shadow:inset 0 1px 0 #3c4d58;touch-action:manipulation}
+button:active{transform:translateY(1px);background:#334650}
+.action{font-size:15px;color:#d4dce0}
+.calc{background:#8a5b0e;border-color:#e3a52a;color:#fff;font-size:13px;letter-spacing:.04em}
+.zero{grid-column:span 2}
+.footer{margin-top:12px;text-align:center;font-size:10px;color:#65747d;letter-spacing:.03em}
+@media(max-width:420px){.input{font-size:34px}.answer{font-size:30px}button{min-height:58px}}
+</style>
+</head>
+<body>
+<main id="app">
+  <div class="topbar">
+    <div class="brand"><div class="logo">⚡</div><div><h1>Electrical Code Calculator</h1><div class="title2">Field Calculation Tool</div></div></div>
+    <div class="badge">CALC</div>
+  </div>
+  <section class="card">
+    <div class="sectionhead">Load / Current Calculation</div>
+    <div class="formula">ROUND UP:  x ÷ 3.412 ÷ 3 ÷ 240</div>
+    <div class="display">
+      <div id="input" class="input" aria-live="polite">0</div>
+      <div class="result">
+        <div><div class="resultlabel">Calculated Result</div><div id="answer" class="answer" aria-live="polite">0</div></div>
+        <div class="unit">WHOLE NUMBER</div>
+      </div>
+    </div>
+    <div class="note">Enter the value for <b>x</b>. The calculator divides sequentially by 3.412, 3, and 240, then rounds the result upward to the next whole number.</div>
+  </section>
+  <div class="keys" aria-label="Calculator keypad">
+    <button class="action" data-action="clear">CLEAR</button>
+    <button class="action" data-action="back">⌫ DELETE</button>
+    <button class="calc" data-action="calculate">CALCULATE</button>
+    <button data-key="7">7</button><button data-key="8">8</button><button data-key="9">9</button>
+    <button data-key="4">4</button><button data-key="5">5</button><button data-key="6">6</button>
+    <button data-key="1">1</button><button data-key="2">2</button><button data-key="3">3</button>
+    <button class="zero" data-key="0">0</button><button data-key=".">.</button>
+  </div>
+  <div class="footer">ELECTRICAL CODE CALCULATOR • v1.0</div>
+</main>
+<script>
+(()=>{const input=document.getElementById('input'),answer=document.getElementById('answer');let value='';
+function render(){input.textContent=value||'0';const n=Number(value);answer.textContent=value!==''&&Number.isFinite(n)&&n>=0?String(Math.ceil(n/3.412/3/240)):'0'}
+document.querySelectorAll('[data-key]').forEach(b=>b.onclick=()=>{let k=b.dataset.key;if(k==='.'&&value.includes('.'))return;if(value==='0'&&k!=='.')value=k;else if(value.length<15)value+=k;render()});
+document.querySelector('[data-action="clear"]').onclick=()=>{value='';render()};
+document.querySelector('[data-action="back"]').onclick=()=>{value=value.slice(0,-1);render()};
+document.querySelector('[data-action="calculate"]').onclick=render;
+document.addEventListener('keydown',e=>{if((e.key>='0'&&e.key<='9')||e.key==='.'){let b=document.querySelector(`[data-key="${e.key}"]`);if(b)b.click()}else if(e.key==='Backspace')document.querySelector('[data-action="back"]').click();else if(e.key==='Escape')document.querySelector('[data-action="clear"]').click();else if(e.key==='Enter')render()});
+if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});render()})();
+</script>
+</body></html>
